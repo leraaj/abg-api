@@ -1,5 +1,5 @@
 const database = require("../config/connection.js");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const Position = require("./positionsModel.js");
 
 class User extends Position {
