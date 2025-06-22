@@ -16,6 +16,7 @@ app.use(
       "http://localhost:3306",
       "http://localhost:3000",
       "http://localhost:8100",
+      "http://localhost:5173",
       "capacitor://localhost",
       "ionic://localhost",
     ],
