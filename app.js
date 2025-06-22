@@ -12,6 +12,7 @@ app.use(
   cors({
     credentials: true,
     origin: [
+      "https://abg-api.onrender.com",
       "http://localhost:3306",
       "http://localhost:3000",
       "http://localhost:8100",
