@@ -99,7 +99,6 @@ class User extends Position {
   }
   static async mobileAuth(data) {
     const inputData = await data;
-    // console.log(inputData);
     const query =
       "SELECT * FROM users WHERE users.username = ? AND users.position_id IN (2,5)";
     const [rows, fields] = await database.execute(query, [inputData.username]);
@@ -133,7 +132,7 @@ class User extends Position {
       inputData.password,
       filteredRows[0].password
     );
-    console.log(isMatched);
+
     return isMatched ? filteredRows[0] : false;
   }
   static async auth(data) {
