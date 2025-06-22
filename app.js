@@ -12,6 +12,7 @@ app.use(
   cors({
     credentials: true,
     origin: [
+      "http://localhost:3306",
       "http://localhost:3000",
       "http://localhost:8100",
       "capacitor://localhost",
