@@ -79,6 +79,6 @@ app.use((err, request, response, next) => {
 });
 
 // SERVER WILL LISTEN TO
-app.listen(process.env.NODE_APP_PORT || 3000, () =>
+app.listen(process.env.NODE_APP_PORT || 3000, "0.0.0.0", () =>
   console.log(`server running on PORT ${process.env.NODE_APP_PORT}`)
 );
