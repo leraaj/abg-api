@@ -4,7 +4,7 @@ require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
-const pool = require("./connection"); // Make sure this is the same one you're using across your app
+const pool = require("./config/connection"); // Make sure this is the same one you're using across your app
 
 const cors = require("cors");
 const app = express();
