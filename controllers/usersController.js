@@ -117,7 +117,7 @@ exports.handleLoginUser = async (request, response, next) => {
 
     if (data) {
       request.session.user = { user: data };
-      console.log({ message: "Login successful", user: data });
+      // console.log({ message: "Login successful", user: data });
       response.status(201).json({ message: "Login successful", user: data });
     } else {
       response.status(400).json({ message: "Invalid credentials" });
@@ -142,8 +142,8 @@ exports.handleLogoutUser = (request, response, next) => {
 };
 exports.handleLoggedUser = async (request, response, next) => {
   try {
-    console.log("Session check:", request.session); // 👈 Debug line
-    console.log(`user: ${request.session.user || null}`);
+    console.log("Session ID:", req.sessionID);
+    console.log("Session full:", req.session);
     response.status(200).json({ user: request.session.user || null });
   } catch (error) {
     response.status(500).json({ message: error.message });
