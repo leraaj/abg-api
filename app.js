@@ -3,6 +3,7 @@ const express = require("express");
 // const session = require("express-session");
 const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
+const pool = require("./config/connection");
 const cors = require("cors");
 const app = express();
 
