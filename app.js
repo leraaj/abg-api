@@ -1,7 +1,8 @@
 require("dotenv").config();
-const express = require("express");
+// const express = require("express");
+// const session = require("express-session");
 const session = require("express-session");
-
+const MySQLStore = require("express-mysql-session")(session);
 const cors = require("cors");
 const app = express();
 
@@ -26,13 +27,28 @@ app.use(
 );
 
 //SESSION
+// app.use(
+//   session({
+//     secret: process.env.NODE_APP_SECRET_KEY,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       secure: false, // Set to true if using HTTPS
+//       maxAge: 1000 * 60 * 60 * 24, // 1 day
+//     },
+//   })
+// );
+const sessionStore = new MySQLStore({}, pool.promise());
 app.use(
   session({
+    key: "abg.sid", // optional custom session cookie name
     secret: process.env.NODE_APP_SECRET_KEY,
+    store: sessionStore,
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // Set to true if using HTTPS
+      secure: false, // should be true if you're on HTTPS
+      httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24, // 1 day
     },
   })
