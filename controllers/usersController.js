@@ -142,6 +142,7 @@ exports.handleLogoutUser = (request, response, next) => {
 exports.handleLoggedUser = async (request, response, next) => {
   try {
     console.log("Session check:", request.session); // 👈 Debug line
+    console.log(`user: ${request.session.user || null}`);
     response.status(200).json({ user: request.session.user || null });
   } catch (error) {
     response.status(500).json({ message: error.message });
