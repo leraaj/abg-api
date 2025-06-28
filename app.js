@@ -28,7 +28,12 @@ app.use(
     allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
   })
 );
-const sessionStore = new MySQLStore({}, pool);
+const sessionStore = new MySQLStore({
+  host: process.env.NODE_APP_SERVER,
+  user: process.env.NODE_APP_USERNAME,
+  password: process.env.NODE_APP_PASSWORD,
+  database: process.env.NODE_APP_DATABASE,
+});
 
 //SESSION
 // app.use(
