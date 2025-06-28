@@ -28,10 +28,7 @@ app.use(
     allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
   })
 );
-const sessionStore = new MySQLStore(
-  {},
-  pool.promise().getConnection.bind(pool.promise())
-);
+const sessionStore = new MySQLStore({}, pool);
 
 //SESSION
 // app.use(
