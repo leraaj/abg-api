@@ -116,7 +116,7 @@ exports.handleLoginUser = async (request, response, next) => {
     }
 
     if (data) {
-      request.session.user = data;
+      request.session.user = { user: data };
       console.log({ message: "Login successful", user: data });
       response.status(201).json({ message: "Login successful", user: data });
     } else {
