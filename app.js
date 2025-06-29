@@ -36,20 +36,34 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ✅ SESSION MIDDLEWARE
+// Temporarily test with no MySQL store
 app.use(
   session({
-    key: "abg_session_cookie",
     secret: process.env.NODE_APP_SECRET_KEY,
-    store: sessionStore,
     resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
       secure: false,
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 86400000,
     },
   })
 );
+
+// app.use(
+//   session({
+//     key: "abg_session_cookie",
+//     secret: process.env.NODE_APP_SECRET_KEY,
+//     store: sessionStore,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       httpOnly: true,
+//       secure: false,
+//       maxAge: 24 * 60 * 60 * 1000,
+//     },
+//   })
+// );
 
 // ✅ API ROUTES
 app.use(
