@@ -115,7 +115,8 @@ exports.handleLoginUser = async (req, res, next) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
     console.log(`User Logged: ${JSON.stringify(data)}`);
-    req.session.user = { id: data.id, username: data.username };
+    const sampleUser = { id: data.id, username: data.username };
+    req.session.user = sampleUser;
 
     req.session.save((err) => {
       if (err) {
