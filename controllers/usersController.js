@@ -116,17 +116,10 @@ exports.handleLoginUser = async (request, response, next) => {
     }
 
     if (data) {
-      const safeUser = {
-        id: data.id,
-        username: data.username,
-        employee_name: data.employee_name,
-        position_id: data.position_id,
-      };
-      request.session.user = safeUser;
-
-      response.status(201).json({
-        message: "Login successful",
-        user: safeUser,
+      request.session.user = data;
+      request.session.save((err) => {
+        if (err) console.error("Session save error:", err);
+        response.status(201).json({ message: "Login successful", user: data });
       });
     } else {
       response.status(400).json({ message: "Invalid credentials" });
