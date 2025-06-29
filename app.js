@@ -7,12 +7,12 @@ const app = express();
 
 // APP ALLOWS WHICH ORIGIN, TYPE OF REQUESTS, ALLOWED TO SUBMIT E.G FORM-DATA, MEDIA TYPE ETC.
 //
-
+app.set("trust proxy", 1);
 app.use(
   cors({
     credentials: true,
     origin: [
-      "https://abg-api.onrender.com",
+      // "https://abg-api.onrender.com",
       "http://localhost:3306",
       "http://localhost:3000",
       "http://localhost:8100",
@@ -33,6 +33,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       secure: true, // Set to true if using HTTPS
+      sameSite: "lax", // helps cross-origin sessions work
       maxAge: 1000 * 60 * 60 * 24, // 1 day
     },
   })
