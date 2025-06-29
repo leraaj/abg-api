@@ -41,6 +41,9 @@ app.use(
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
+    //     secret: process.env.NODE_APP_SECRET_KEY,
+    //     resave: false,
+    //     saveUninitialized: false,
     cookie: {
       httpOnly: true,
       secure: false, // true if HTTPS
