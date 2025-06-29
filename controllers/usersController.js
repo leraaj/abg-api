@@ -99,32 +99,32 @@ exports.handleChangepasswordUser = async (request, response, next) => {
   }
 };
 
-exports.handleLoginUser = async (req, res, next) => {
+exports.handleLoginUser = async (request, res, next) => {
   try {
-    const data = req.body.isMobile
+    const data = request.body.isMobile
       ? await User.mobileAuth({
-          username: req.body.username,
-          password: req.body.password,
+          username: request.body.username,
+          password: request.body.password,
         })
       : await User.auth({
-          username: req.body.username,
-          password: req.body.password,
+          username: request.body.username,
+          password: request.body.password,
         });
 
     if (!data) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
     const sampleUser = { id: data.id, username: data.username };
-    console.log(`User Logged: ${JSON.stringify(req.session.user)}`);
-    req.session.user = sampleUser;
-    console.log(`User Logged: ${JSON.stringify(req.session.user)}`);
-    req.session.save((err) => {
+    console.log(`User Logged: ${JSON.stringify(request.session.user)}`);
+    request.session.user = sampleUser;
+    console.log(`User Logged: ${JSON.stringify(request.session.user)}`);
+    request.session.save((err) => {
       if (err) {
         console.error("Session save error:", err);
         return res.status(500).json({ message: "Session failed to save." });
       }
 
-      console.log("✅ Session saved:", req.sessionID);
+      console.log("✅ Session saved:", request.sessionID);
       res.status(201).json({ message: "Login successful", user: data });
     });
   } catch (error) {
@@ -145,13 +145,13 @@ exports.handleLogoutUser = (request, response, next) => {
     next(error);
   }
 };
-exports.handleLoggedUser = async (req, res, next) => {
+exports.handleLoggedUser = async (request, res, next) => {
   try {
-    console.table(req.session);
-    console.table(req.session.user);
+    console.table(request.session);
+    console.table(request.session.user);
     console.log("============");
 
-    res.status(200).json({ user: req.session.user || null });
+    res.status(200).json({ user: request.session.user || null });
   } catch (error) {
     next(error);
   }
