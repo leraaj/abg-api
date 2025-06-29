@@ -147,7 +147,10 @@ exports.handleLogoutUser = (request, response, next) => {
 };
 exports.handleLoggedUser = async (request, res, next) => {
   try {
+    console.log("============");
+    console.log(`Session Table`);
     console.table(request.session);
+    console.log(`User Session Table`);
     console.table(request.session.user);
     console.log("============");
 
