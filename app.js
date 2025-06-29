@@ -12,13 +12,13 @@ app.use(
   cors({
     credentials: true,
     origin: [
-      // "https://abg-api.onrender.com",
       "http://localhost:3306",
       "http://localhost:3000",
       "http://localhost:8100",
       "http://localhost:5173",
       "capacitor://localhost",
       "ionic://localhost",
+      // "https://abg-api.onrender.com",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
@@ -32,7 +32,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: true, // Set to true if using HTTPS
+      secure: process.env.NODE_ENV === "production", // Set to true if using HTTPS
       sameSite: "lax", // helps cross-origin sessions work
       maxAge: 1000 * 60 * 60 * 24, // 1 day
     },
