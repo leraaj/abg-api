@@ -6,7 +6,13 @@ const cors = require("cors");
 
 const pool = require("./config/connection"); // your db connection
 const app = express();
-
+// ✅ SESSION STORE SETUP
+const sessionStore = new MySQLStore({
+  host: process.env.NODE_APP_SERVER,
+  user: process.env.NODE_APP_USERNAME,
+  password: process.env.NODE_APP_PASSWORD,
+  database: process.env.NODE_APP_DATABASE,
+});
 // ✅ CORS CONFIGURATION
 app.use(
   cors({
@@ -24,14 +30,6 @@ app.use(
     allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
   })
 );
-
-// ✅ SESSION STORE SETUP
-const sessionStore = new MySQLStore({
-  host: process.env.NODE_APP_SERVER,
-  user: process.env.NODE_APP_USERNAME,
-  password: process.env.NODE_APP_PASSWORD,
-  database: process.env.NODE_APP_DATABASE,
-});
 
 // ✅ SESSION MIDDLEWARE
 app.use(
