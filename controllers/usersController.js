@@ -116,7 +116,9 @@ exports.handleLoginUser = async (request, response, next) => {
     }
 
     if (data) {
-      request.session.user = data;
+      request.session.user = request.session.user = JSON.parse(
+        JSON.stringify(data)
+      );
       request.session.save((err) => {
         if (err) {
           console.error("Session save error:", err);
