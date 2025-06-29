@@ -3,10 +3,11 @@ const express = require("express");
 const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const pool = require("./config/connection");
 const app = express();
-
+app.use(cookieParser());
 // ✅ SESSION STORE SETUP
 const sessionStore = new MySQLStore({
   host: process.env.NODE_APP_SERVER,
