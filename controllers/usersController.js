@@ -99,36 +99,38 @@ exports.handleChangepasswordUser = async (request, response, next) => {
   }
 };
 
-exports.handleLoginUser = async (request, response, next) => {
+exports.handleLoginUser = async (req, res, next) => {
   try {
-    let data;
+    const data = req.body.isMobile
+      ? await User.mobileAuth({
+          username: req.body.username,
+          password: req.body.password,
+        })
+      : await User.auth({
+          username: req.body.username,
+          password: req.body.password,
+        });
 
-    if (request.body.isMobile) {
-      data = await User.mobileAuth({
-        username: request.body.username,
-        password: request.body.password,
-      });
-    } else {
-      data = await User.auth({
-        username: request.body.username,
-        password: request.body.password,
-      });
+    if (!data) {
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    if (data) {
-      request.session.user = data;
-      request.session.save((err) => {
-        if (err) console.error("Session save error:", err);
-        response.status(201).json({ message: "Login successful", user: data });
-      });
-    } else {
-      response.status(400).json({ message: "Invalid credentials" });
-    }
+    req.session.user = data;
+
+    req.session.save((err) => {
+      if (err) {
+        console.error("Session save error:", err);
+        return res.status(500).json({ message: "Session failed to save." });
+      }
+
+      console.log("✅ Session saved:", req.sessionID);
+      res.status(201).json({ message: "Login successful", user: data });
+    });
   } catch (error) {
-    response.status(500).json({ message: error.message });
     next(error);
   }
 };
+
 exports.handleLogoutUser = (request, response, next) => {
   try {
     request.session.destroy((err) => {
@@ -142,14 +144,14 @@ exports.handleLogoutUser = (request, response, next) => {
     next(error);
   }
 };
-exports.handleLoggedUser = async (request, response, next) => {
+exports.handleLoggedUser = async (req, res, next) => {
   try {
-    console.log("Session ID:", request.sessionID);
-    console.log("Session full:", request.session);
-    console.log("Session user:", request.session.user);
-    response.status(200).json({ user: request.session.user || null });
+    console.log("Session ID:", req.sessionID);
+    console.log("Session contents:", req.session);
+    console.log("Logged-in user:", req.session.user);
+
+    res.status(200).json({ user: req.session.user || null });
   } catch (error) {
-    response.status(500).json({ message: error.message });
     next(error);
   }
 };

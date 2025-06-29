@@ -4,8 +4,9 @@ const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
 const cors = require("cors");
 
-const pool = require("./config/connection"); // your db connection
+const pool = require("./config/connection");
 const app = express();
+
 // ✅ SESSION STORE SETUP
 const sessionStore = new MySQLStore({
   host: process.env.NODE_APP_SERVER,
@@ -13,23 +14,26 @@ const sessionStore = new MySQLStore({
   password: process.env.NODE_APP_PASSWORD,
   database: process.env.NODE_APP_DATABASE,
 });
-// ✅ CORS CONFIGURATION
+
+// ✅ CORS FIRST — before session
 app.use(
   cors({
     origin: [
       "http://localhost:3000",
       "http://localhost:8100",
       "http://localhost:5173",
-      "http://localhost:3306", // ⚠️ optional, check this port — usually DB
-      "https://abg-api.onrender.com", // ensure this domain is actually your frontend (it looks like backend)
       "capacitor://localhost",
       "ionic://localhost",
     ],
-    credentials: true, // 👈 Important: allow cookies
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
   })
 );
+
+// ✅ PARSE JSON/BODY
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // ✅ SESSION MIDDLEWARE
 app.use(
@@ -39,20 +43,13 @@ app.use(
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
-    //     secret: process.env.NODE_APP_SECRET_KEY,
-    //     resave: false,
-    //     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false, // true if HTTPS
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      secure: false,
+      maxAge: 24 * 60 * 60 * 1000,
     },
   })
 );
-
-// ✅ PARSE JSON/BODY
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // ✅ API ROUTES
 app.use(
