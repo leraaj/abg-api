@@ -116,9 +116,19 @@ exports.handleLoginUser = async (request, response, next) => {
     }
 
     if (data) {
-      request.session.user = { user: data };
-      // console.log({ message: "Login successful", user: data });
-      response.status(201).json({ message: "Login successful", user: data });
+      request.session.user = data;
+      request.session.save((err) => {
+        if (err) {
+          console.error("Session save error:", err);
+          return response
+            .status(500)
+            .json({ message: "Failed to save session" });
+        }
+
+        console.log("Session after login:", request.session);
+        response.status(201).json({ message: "Login successful", user: data });
+      });
+      // response.status(201).json({ message: "Login successful", user: data });
     } else {
       response.status(400).json({ message: "Invalid credentials" });
     }
@@ -144,7 +154,7 @@ exports.handleLoggedUser = async (request, response, next) => {
   try {
     console.log("Session ID:", request.sessionID);
     console.log("Session full:", request.session);
-    console.log(`Session user: ${request.session.user}`);
+    console.log("Session user:", request.session.user);
     response.status(200).json({ user: request.session.user || null });
   } catch (error) {
     response.status(500).json({ message: error.message });
