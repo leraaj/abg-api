@@ -46,7 +46,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: true, // important for https on Render
+      sameSite: "none", // important to allow cross-origin
       maxAge: 24 * 60 * 60 * 1000,
     },
   })

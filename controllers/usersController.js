@@ -149,7 +149,9 @@ exports.handleLoggedUser = async (req, res, next) => {
   try {
     console.log("Session ID:", req.sessionID);
     console.log("Session contents:", req.session);
+    console.table(req.session);
     console.log("Logged-in user:", req.session.user);
+    console.log("============");
 
     res.status(200).json({ user: req.session.user || null });
   } catch (error) {
