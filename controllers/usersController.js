@@ -114,10 +114,10 @@ exports.handleLoginUser = async (req, res, next) => {
     if (!data) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
-    console.log(`User Logged: ${JSON.stringify(data)}`);
     const sampleUser = { id: data.id, username: data.username };
+    console.log(`User Logged: ${JSON.stringify(req.session.user)}`);
     req.session.user = sampleUser;
-
+    console.log(`User Logged: ${JSON.stringify(req.session.user)}`);
     req.session.save((err) => {
       if (err) {
         console.error("Session save error:", err);
@@ -147,10 +147,8 @@ exports.handleLogoutUser = (request, response, next) => {
 };
 exports.handleLoggedUser = async (req, res, next) => {
   try {
-    console.log("Session ID:", req.sessionID);
-    console.log("Session contents:", req.session);
     console.table(req.session);
-    console.log("Logged-in user:", req.session.user);
+    console.table(req.session.user);
     console.log("============");
 
     res.status(200).json({ user: req.session.user || null });
